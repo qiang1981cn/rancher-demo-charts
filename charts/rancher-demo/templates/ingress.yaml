@@ -26,10 +26,14 @@ spec:
   {{- end }}
 {{- end }}
   rules:
-    - host: {{ tpl .Values.ingress.host . | quote }}
+    - host: {{ .Values.ingress.host | quote }}
       http:
         paths:
-        - backend:
-            serviceName: {{ $fullName }}
-            servicePort: http
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: {{ $fullName }}
+              port:
+                name: http
 {{- end }}
